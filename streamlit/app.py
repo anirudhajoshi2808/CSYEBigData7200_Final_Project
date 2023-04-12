@@ -157,7 +157,7 @@ PAGES = {
 }
 
 # Create radio buttons to allow user to select page
-page = st.sidebar.radio("Select a page", list(PAGES.keys()))
+page = st.sidebar.selectbox("Select a page", list(PAGES.keys()))
 
 # Call the selected page function
 PAGES[page]()
