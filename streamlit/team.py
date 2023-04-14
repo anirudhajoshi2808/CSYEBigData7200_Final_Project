@@ -56,7 +56,7 @@ def team():
     def plot_data_constructor(data, min_points_per_race):
         filtered_data = data[data['points_per_race'] >= min_points_per_race]
 
-        fig = px.bar(x=filtered_data['name'], y=filtered_data['points_per_race'])
+        fig = px.bar(x=filtered_data['name'], y=filtered_data['points_per_race'], color_discrete_sequence=['red'])
 
         fig.update_layout(
             title="Team's Points per Race",
@@ -66,7 +66,7 @@ def team():
             bargap=0.2,
             bargroupgap=0.1,
             margin=dict(l=50, r=50, t=80, b=50),
-            plot_bgcolor="#ffffff",
+            plot_bgcolor="#000000",
         )
 
         fig.update_traces(
@@ -85,7 +85,7 @@ def team():
     def plot_data_historic(historic_points, min_points_overall):
         filtered_data = historic_points[historic_points['points'] >= min_points_overall]
 
-        fig = px.bar(x=filtered_data['name'], y=filtered_data['points'])
+        fig = px.bar(x=filtered_data['name'], y=filtered_data['points'], color_discrete_sequence=['red'])
 
 
         fig.update_layout(
@@ -104,13 +104,13 @@ def team():
 
     min_value = 0
     max_value = int(data['points_per_race'].max())
-    step = 1
+    step = 5
     default_value = 0
     min_points_per_race = st.sidebar.slider('Team minimum points per race', min_value=min_value, max_value=max_value, step=step, value=default_value)
 
     min_value = 0
     max_value = int(historic_points['points'].max())
-    step = 1
+    step = 500
     default_value = 0
     min_points_overall = st.sidebar.slider('Team minimum points till now', min_value=min_value, max_value=max_value, step=step, value=default_value)
 
