@@ -1,6 +1,9 @@
 import pandas as pd
 import plotly.express as px
 import streamlit as st
+import plotly.graph_objs as go
+from plotly.subplots import make_subplots
+import packcircles 
 
 def team():
     # st.set_page_config(
@@ -46,12 +49,21 @@ def team():
 
     data = load_data()
 
+    min_value = 0
+    max_value = int(data['points_per_race'].max())
+    step = 5
+    default_value = 0
+    min_points_per_race = st.sidebar.slider('Team minimum points per race', min_value=min_value, max_value=max_value, step=step, value=default_value)
+
+
     def load_team():
         team = constructors.merge(results,on='constructorId',how = 'left')
 
         return team
 
     team = load_team()
+
+    
 
     def plot_data_constructor(data, min_points_per_race):
         filtered_data = data[data['points_per_race'] >= min_points_per_race]
@@ -77,7 +89,7 @@ def team():
 
         return fig
 
-
+    fig = plot_data_constructor(data, min_points_per_race)
 
     historic_points = team.groupby('name').agg({'points':'sum'}).sort_values('points',ascending=False).reset_index().head(10)
     # historic_points
@@ -102,24 +114,103 @@ def team():
         return fig
 
 
+    
     min_value = 0
-    max_value = int(data['points_per_race'].max())
-    step = 5
-    default_value = 0
-    min_points_per_race = st.sidebar.slider('Team minimum points per race', min_value=min_value, max_value=max_value, step=step, value=default_value)
-
-    min_value = 0
-    max_value = int(historic_points['points'].max())
+    max_value = 10000
     step = 500
     default_value = 0
     min_points_overall = st.sidebar.slider('Team minimum points till now', min_value=min_value, max_value=max_value, step=step, value=default_value)
 
 
-    fig = plot_data_constructor(data, min_points_per_race)
+    
 
     fig1 = plot_data_historic(historic_points, min_points_overall)
+
+
+    def load_comparison():
+        # merging dataframes
+        c_pt = pd.merge(constructors, constructor_results, on="constructorId")
+        c_pt = pd.merge(races, c_pt, on="raceId")
+
+        # calculating points per year sum
+        c_pt = c_pt.groupby(['year', 'constructorId', 'name_y']).agg({'points': 'sum'}).reset_index()
+        c_pt = c_pt.sort_values(by='points', ascending=False)
+
+        # filtering top 4 teams
+        c_pt = c_pt[c_pt['name_y'].isin(['Red Bull', 'Mercedes', 'McLaren', 'Ferrari'])]
+        c_pt = c_pt[(c_pt['year'] >= '2010') & (c_pt['year'] <= '2021')]
+
+        # renaming column
+        c_pt = c_pt.rename(columns={'name_y': 'Team'})
+
+        return c_pt
+    
+    c_pt = load_comparison()
+
+    def plot_comparison(c_pt):
+        fig2 = px.line(c_pt, x='points', y='year', color='Team', 
+              facet_col='Team', facet_col_wrap=2,
+              title='Points per Year Comparison for Top 4 Teams')
+
+        fig2.update_layout(xaxis=dict(title='Years'),
+                        yaxis=dict(title='Points per Year'),
+                        legend_title='Team',
+                        font=dict(size=12))
+
+        return fig2
+    
+    fig2 = plot_comparison(c_pt)
+
+    def load_team_wins():
+        # merge datasets
+        # Merge the results and constructors data
+        p = pd.merge(results, constructors, on='constructorId', how='outer')
+
+        # Select relevant columns and filter for first place finishes
+        r = p.loc[p['position'] == '1', ['name', 'raceId', 'nationality','position']]
+
+        # Convert position to numeric
+        r['position'] = pd.to_numeric(r['position'])
+
+        # Calculate number of first place finishes by nationality
+        rsC = r.groupby('nationality').agg(first_places=('position', 'sum')) \
+                .reset_index() \
+                .sort_values('first_places', ascending=False)
+        rsC['Percent_Of_Total'] = (rsC['first_places'] / rsC['first_places'].sum()) * 100
+
+        # Add text column for hover information
+        rsC['text'] = ("Nationality: " + rsC['nationality'] + "<br>" +
+                    "Number of Wins: " + rsC['first_places'].astype(str) + "<br>" +
+                    "Percentage of Total wins: " + rsC['Percent_Of_Total'].astype(str) + "%")
+
+
+        return rsC
+
+    rsC = load_team_wins()
+
+    def plot_team_wins(rsC):
+        # Generate circle packing layout
+        # packing = px.pack(rsC, value='position', color='nationality')
+
+       # layout
+        fig3 = px.line(rsC, x='nationality', y='first_places', hover_name='nationality', 
+              hover_data={'first_places': True, 'Percent_Of_Total': True, 'text': True},
+              labels={'nationality': 'Nationality', 'first_places': 'Number of Wins'},
+              title='Number of Wins by Constructor origin country')
+        fig3.update_layout(xaxis_tickangle=-45)
+        fig3.update_traces(marker=dict(color='red'))
+
+        return fig3
+
+    fig3 = plot_team_wins(rsC)
 
     left_column, right_column = st.columns(2)
 
     left_column.plotly_chart(fig, use_container_width=True)
     right_column.plotly_chart(fig1, use_container_width=True)
+
+    left_column1, right_column1 = st.columns(2)
+
+    left_column1.plotly_chart(fig2, use_container_width=True)
+    right_column1.plotly_chart(fig3, use_container_width=True)
+

@@ -30,7 +30,7 @@ def driver():
     top_ten = load_top10_drivers()
 
     min_value = 0
-    max_value = int(top_ten['Number_of_wins'].max())
+    max_value = 100
     step = 5
     default_value = 0
     min_no_of_wins = st.sidebar.slider('Driver with Minimum Number of Wins', min_value=min_value, max_value=max_value, step=step, value=default_value)
@@ -95,7 +95,7 @@ def driver():
     ratios = load_national_champions()
 
     min_value = 0
-    max_value = int(ratios['perc_winners'].max())
+    max_value = 30
     step = 5
     default_value = 0
     min_no_of_wins_nation = st.sidebar.slider('Nation with Minimum Number of Wins', min_value=min_value, max_value=max_value, step=step, value=default_value)
