@@ -170,6 +170,7 @@ def circuit():
 
     figures = plot_fast_lap(df_t2)
     st.plotly_chart(fig1)
+    st.write("In higher altitudes, air density is thinner; therefore, less air passes through the radiators and intake valves to cool down the brakes and engine. Also, engines need oxygen to instantiate combustion, a lack of which leads to performance loss in a car. The primary data points for such scenarios are overheating of transmission and engine components")
     st.plotly_chart(fig)
 
     # left_column, right_column = st.columns(2)
@@ -178,7 +179,8 @@ def circuit():
     # right_column.plotly_chart(fig, use_container_width=True)
     # for i in figures:
     #     st.plotly_chart(i)
-
+    st.title("Circuits with the Fastest LapSpeed Record")
+    st.write("Each circuit has its one features and parameters like altitude and the design of the circuit influnces performance of the drivers. Here we try to figure out Fastest Lap Speed of top Circuits used in F1")
     rows = 2
     cols = 2
     fig_grid = []
