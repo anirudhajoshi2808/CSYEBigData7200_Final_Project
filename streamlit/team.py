@@ -13,7 +13,7 @@ def team():
     # )
 
     st.title("F1 Championship Team Analysis")
-
+    st.write("In Formula 1, teams are the businesses, organizations, or producers in charge of designing and building the racing vehicles. Two racing drivers and a racing team from each constructor participate in each Grand Prix for World Championship points. A crucial component of the sport is the Formula 1 constructors. Without the constructor’s championship, no team would strive as hard for success as they do because the constructors are the teams that support the vehicles and the drivers.")
     # @st.cache_data
 
     circuits = pd.read_csv('../data/circuits.csv')
@@ -207,10 +207,14 @@ def team():
     left_column, right_column = st.columns(2)
 
     left_column.plotly_chart(fig, use_container_width=True)
+    left_column.write("The bar graph shows top successful teams based on the total points earned.", use_container_width=True)
     right_column.plotly_chart(fig1, use_container_width=True)
+    right_column.write("The bar graph shows top 10 successful teams based on the historical total points earned. Ferrari, Mercedes, Redbull, McLaren turn out to be the most successful teams with more than 5000 points.", use_container_width=True)
 
     left_column1, right_column1 = st.columns(2)
 
     left_column1.plotly_chart(fig2, use_container_width=True)
+    left_column1.write("The graphic shows that Mercedes has regularly dominated the points, but in recent years, the other teams have begun to catch up and challenge them. It appears like Mercedes’ golden age is about to come to an end, or at the very least, they will have to battle hard to survive", use_container_width=True)
     right_column1.plotly_chart(fig3, use_container_width=True)
+    right_column1.write("Bristish constructors has won more number of times (494 times) as compared to other nationalities. Constructors from Irish, Canadian and Japanese nationalities have won the lowest number of times", use_container_width=True)
 

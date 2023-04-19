@@ -11,7 +11,7 @@ def driver():
     # )
 
     st.title("F1 Championship Driver Analysis")
-
+    st.write("Formula 1 began in 1950 and since then many legendary drivers and teams have dazzled audiences around the world. From Juan Manuel Fangio to Alberto Ascari, Ayrton Senna to Michael Schumacher, Lewis Hamilton to Max Verstappen, F1 has crowned many champions over the years. In the world of Formula One (F1) racing, drivers play a crucial role as they are the ones who are behind the wheel and compete in races. The role of the driver in F1 is to control the car and achieve the best possible finish in each race.\n\nTo be successful in F1, a driver must possess a combination of physical and mental skills, including quick reflexes, endurance, and the ability to make split-second decisions under pressure. They must also have a deep understanding of their car and the track, as well as the ability to work closely with their team to make informed decisions about strategy, tire choice, and other key elements of the race.\n\nOverall, the role of the driver in F1 is to push the limits of their car and their own abilities, and to compete at the highest level in the pursuit of victory.")
     drivers = pd.read_csv("../data/drivers.csv")
     results = pd.read_csv("../data/results.csv")
     races = pd.read_csv("../data/races.csv")
@@ -231,11 +231,14 @@ def driver():
     left_column, right_column = st.columns(2)
 
     left_column.plotly_chart(fig, use_container_width=True)
+    left_column.write("Lewis Hamilton and Michael Schumacher topped the list of F1 drivers’ all-time victories comparisons in the histogram above.", use_container_width=True)
     right_column.plotly_chart(fig2, use_container_width=True)
-
+    right_column.write("This bar chart shows Percentage of winners by Nationality", use_container_width=True)
     left_column2, right_column2 = st.columns(2)
     left_column2.plotly_chart(fig3, use_container_width=True)
+    left_column2.write("This pie chart shows historical driver nationality distribution since 1950 in the F1 championship", use_container_width=True)
     right_column2.plotly_chart(fig4, use_container_width=True)
+    right_column2.write("From the chart above, we can see that Max Verstappen holds the record of highest number of wins (15) in 2022 season. NExt, Vettel and Schumacher hold the record for the equal victories in a season combined. Both in the years 2004 and 2013, respectively, were completely omnipresent. ", use_container_width=True)
 
 
     # st.plotly_chart(fig3)
