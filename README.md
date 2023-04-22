@@ -2,33 +2,35 @@
 # F1 World Championship Analysis and Winner Prediction
 # Proposal
 
-This project aims to accomplish F1 2022 race winner using predictions.
+This project aims to accomplish F1 race winner using predictions.
 
 # Requirements:
 
-Formula 1 2022 dataset including:
+Formula 1 dataset:
+https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020
 
-Driver Details Data 
+Scala
 
-Team Details Data 
+Spark
 
-Race Details Data 
+Python 3.8+
 
-Points Details Data
+# Usage
+
+Navigate to streamlit folder and run the application by the command: 
+
+streamlit run app.py
 
 
 # Vision and Goals
 
-The F1 2022 race winner prediction project aims to leverage machine learning techniques to predict the winner of the 2022 Formula One racing season. The project will use historical data from past Formula One seasons to train and test machine learning models, and then use the trained model to predict the winner of the upcoming races.
+The F1 race winner prediction project aims to leverage machine learning techniques to predict the winner of the Formula One racing season. The project will use historical data from past Formula One seasons to train and test machine learning models, and then use the trained model to predict the winner of the upcoming races.
 
 
-The project will use AWS S3 to store the data files required for the analysis. The data files will be loaded into EDA using Spark and Scala, which will enable the project team to perform exploratory data analysis and data preprocessing. Once the data has been processed, the team will use AWS Sagemaker to build and train machine learning models.
+The data files will be loaded using Spark and Scala, which will enable the project team to perform exploratory data analysis and data preprocessing. Once the data has been processed, the team will use Spark ML to build and train machine learning models.
 
 
-The project team will use various machine learning algorithms, including to build and train the models. The models will be evaluated using various metrics such as accuracy, precision, and recall.
-
-
-AWS Athena will be used to create interactive data visualizations that will help the project team to analyze the data and communicate their findings. Finally, the project team will use the trained model to predict the winner of the 2022 Formula One racing season.
+Streamlit will be used to create interactive data visualizations that will help the project team to analyze the data and communicate their findings. Finally, the project team will use the trained model to predict the winner of the Formula One racing season.
 
 
 The project will be divided into several phases, including data collection, data preprocessing, model development, model training and evaluation, and prediction.
@@ -36,11 +38,13 @@ The successful completion of the project will provide valuable insights into the
 
 # Deliverables
 
-Ingestion of Data: Ingesting the data in AWS S3
+Data preprocessing and Cleaning: Available in data-processing-scala folder
 
-Exploratory Data Analysis: Using Spark Scala create and clean the data and store the files in AWS S3
+ML prediction: Available in prediction folder
 
-Data Visualization: Using the cleaned data available at AWS S3 create and plot visualizations on Streamlit
+Visualization: Streamlit folder
 
-ML Predictions: Using machine learning algorithms and libraries build models fitting the data and predict F1 winner 2022 leveraging Spark ML and showcase on Streamlit app
+Data from kaggle is preprocessed, cleaned using Scala Spark and stored in cleaned_data folder.
+cleaned_data folder is referenced for visualization 
+
 
